@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_page_reveal/model/page_view_model.dart';
+import 'package:material_page_reveal/page_indicator.dart';
 import 'package:material_page_reveal/pages.dart';
 import 'package:material_page_reveal/widget/page_reveal.dart';
 
@@ -37,7 +38,7 @@ class _HomePageState extends State<HomePage> {
               pageViewModel: viewModel[2],
             ),
           ),
-
+PageIndicator(),
         ],
       ),
     );
