@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_page_reveal/model/page_indicator_view_model.dart';
 import 'package:material_page_reveal/model/page_view_model.dart';
 import 'package:material_page_reveal/page_indicator.dart';
 import 'package:material_page_reveal/pages.dart';
@@ -30,16 +31,21 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: <Widget>[
           Page(
-            pageViewModel: viewModel[1],
+            pageViewModel: viewModel[0],
           ),
           PageReveal(
             revealPercent: 1.0,
             child: Page(
-              pageViewModel: viewModel[2],
+              pageViewModel: viewModel[1],
             ),
           ),
-          //TODO:(3.1)Create a PageIndicator
-//          PageIndicator(),
+          //TODO:(4.)Pass in the PageIndicatorViewModel
+          PageIndicator(
+//            pageIndicatorViewModel: PageIndicatorViewModel(
+//              activeIndex: 1,
+//              pages: viewModel,
+//            ),
+          ),
         ],
       ),
     );
