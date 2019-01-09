@@ -38,7 +38,8 @@ class _HomePageState extends State<HomePage> {
               pageViewModel: viewModel[2],
             ),
           ),
-PageIndicator(),
+          //TODO:(3.1)Create a PageIndicator
+//          PageIndicator(),
         ],
       ),
     );
