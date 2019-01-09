@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:material_page_reveal/model/page_view_model.dart';
 import 'package:material_page_reveal/pages.dart';
@@ -32,18 +31,15 @@ class _HomePageState extends State<HomePage> {
           Page(
             pageViewModel: viewModel[1],
           ),
-          Page(
-            pageViewModel: viewModel[2],
-          )
-//          PageReveal(
-//            revealPercent: 1.0,
-//            child: Page(
-//              pageViewModel: viewModel[2],
-//            ),
-//          )
+          PageReveal(
+            revealPercent: 1.0,
+            child: Page(
+              pageViewModel: viewModel[2],
+            ),
+          ),
+
         ],
       ),
     );
   }
 }
-
