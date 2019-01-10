@@ -39,12 +39,11 @@ class _HomePageState extends State<HomePage> {
               pageViewModel: viewModel[1],
             ),
           ),
-
           PageIndicator(
             pageIndicatorViewModel: PageIndicatorViewModel(
-              activeIndex: 1,
+              activeIndex: 0,
               pages: viewModel,
-              slideDirection: SlideDirection.none,
+              slideDirection: SlideDirection.rightToLeft,
               slidePercent: 1.0,
             ),
           ),
