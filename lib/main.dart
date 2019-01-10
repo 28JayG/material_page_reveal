@@ -27,49 +27,78 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-//TODO:(8.2) Bring in the StreamController to listen to the SlideUpdate
-//  StreamController<SlideUpdate> streamController;
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  StreamController<SlideUpdate> streamController;
+
+  //TODO:(9.3) Bring in AnimatedDragger
+//  AnimatedDragger animatedDragger;
+
+  int activeIndex = 1;
+  SlideDirection slideDirection = SlideDirection.none;
+  double slidePercent = 0.0;
+  int nextIndex = 0;
+
+  _HomePageState() {
+    streamController = StreamController<SlideUpdate>();
+
+    streamController.stream.listen((SlideUpdate event) {
+      setState(() {
+        if (event.dragUpdateType == DragUpdateType.dragging) {
+          slideDirection = event.direction;
+          slidePercent = event.percent;
+          if (slideDirection == SlideDirection.leftToRight) {
+            nextIndex = activeIndex - 1;
+          } else if (slideDirection == SlideDirection.rightToLeft) {
+            nextIndex = activeIndex + 1;
+          } else {
+            nextIndex = activeIndex;
+          }
+        } else if (event.dragUpdateType == DragUpdateType.doneDragging) {
+          if (slidePercent > 0.5) {
+            activeIndex = slideDirection == SlideDirection.leftToRight
+                ? activeIndex - 1
+                : activeIndex + 1;
+
+//            animatedDragger = AnimatedDragger(
+//              slideDirection: slideDirection,
+//              slidePercent: slidePercent,
+//              slideUpdateStream: streamController,
+//              transitionGoal: TransitionGoal.open,
+//              vsync: this,
+//            );
+          }
+          slideDirection = SlideDirection.none;
+          slidePercent = 0.0;
+//          else {
+//            animatedDragger = AnimatedDragger(
+//              slideUpdateStream: streamController,
+//              vsync: this,
+//              transitionGoal: TransitionGoal.close,
+//              slidePercent: slidePercent,
+//              slideDirection: slideDirection,
+//            );
+//            nextIndex = activeIndex;
 //
-//  int activeIndex = 0;
-//  SlideDirection slideDirection = SlideDirection.none;
-//  double slidePercent = 0.0;
-//  int nextIndex = 0;
-//
-//  _HomePageState() {
-//    streamController = StreamController<SlideUpdate>();
-//
-//    streamController.stream.listen((SlideUpdate event) {
-//      setState(() {
-//        if (event.dragUpdateType == DragUpdateType.dragging) {
-//        slideDirection = event.direction;
-//          slidePercent = event.percent;
-////          if(slideDirection == SlideDirection.leftToRight){
-////            nextIndex = activeIndex -1;
-////          }else if(slideDirection == SlideDirection.rightToLeft){
-////            nextIndex = activeIndex +1;
-////          }else{
-////           nextIndex = activeIndex;
-////          }
-//
-//          nextIndex = slideDirection == SlideDirection.leftToRight
-//              ? activeIndex - 1
-//              : activeIndex + 1;
-//
-//          nextIndex.clamp(0.0, viewModel.length - 1);
-//        } else if (event.dragUpdateType == DragUpdateType.doneDragging) {
-//          if (slidePercent > 0.5) {
-//            activeIndex = slideDirection == SlideDirection.leftToRight
-//                ? activeIndex - 1
-//                : activeIndex + 1;
 //          }
+
+//          animatedDragger.run();
+        }
+//        else if(event.dragUpdateType == DragUpdateType.animating){
+//          slideDirection = event.direction;
+//          slidePercent = event.percent;
+//        }
+//        else if (event.dragUpdateType == DragUpdateType.doneAnimating) {
+//
+//          activeIndex = nextIndex;
 //
 //          slideDirection = SlideDirection.none;
 //          slidePercent = 0.0;
+//
+//          animatedDragger.dispose();
 //        }
-//      });
-//    });
-//  }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,36 +106,28 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: <Widget>[
           Page(
-            pageViewModel: viewModel[0],
-//            pageViewModel: viewModel[activeIndex],
+            pageViewModel: viewModel[activeIndex],
             percentVisible: 1.0,
           ),
           PageReveal(
-            revealPercent: 1.0,
-//            revealPercent: slidePercent,
+            revealPercent: slidePercent,
             child: Page(
-              pageViewModel: viewModel[1],
-              percentVisible: 1.0,
-//              pageViewModel: viewModel[nextIndex],
-//              percentVisible: slidePercent,
+              pageViewModel: viewModel[nextIndex],
+              percentVisible: slidePercent,
             ),
           ),
           PageIndicator(
             pageIndicatorViewModel: PageIndicatorViewModel(
-              activeIndex: 1,
+              activeIndex: activeIndex,
               pages: viewModel,
-              slideDirection: SlideDirection.rightToLeft,
-              slidePercent: 0.3,
-//              activeIndex: activeIndex,
-//              pages: viewModel,
-//              slidePercent: slidePercent,
-//              slideDirection: slideDirection,
+              slidePercent: slidePercent,
+              slideDirection: slideDirection,
             ),
           ),
           PageDragger(
-//            slideUpdateStream: streamController,
-//            canDragLeftToRight: activeIndex > 0,
-//            canDragRightToLeft: activeIndex < viewModel.length - 1,
+            slideUpdateStream: streamController,
+            canDragLeftToRight: activeIndex > 0,
+            canDragRightToLeft: activeIndex < viewModel.length - 1,
           ),
         ],
       ),
