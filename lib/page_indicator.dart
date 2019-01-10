@@ -14,7 +14,7 @@ class PageIndicator extends StatelessWidget {
 
     for (int i = 0; i < pageIndicatorViewModel.pages.length; i++) {
       final page = pageIndicatorViewModel.pages[i];
-      //TODO: Toggle the indicator bubble size using the slide properties
+      //TODO:(5)Toggle the indicator bubble size using the slide properties
 //      var activePercent;
 //      if (i == pageIndicatorViewModel.activeIndex) {
 //        activePercent = 1.0 - pageIndicatorViewModel.slidePercent;
