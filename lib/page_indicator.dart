@@ -44,17 +44,20 @@ class PageIndicator extends StatelessWidget {
       );
     }
 
-//    final bubbleWidth = 55.0;
-//    final baseTranslation = (pageIndicatorViewModel.pages.length * bubbleWidth)/2-bubbleWidth/2;
-//    var translation = baseTranslation - (bubbleWidth*pageIndicatorViewModel.activeIndex);
-//
-//    if(pageIndicatorViewModel.slideDirection == SlideDirection.leftToRight){
-//        translation += bubbleWidth * pageIndicatorViewModel.slidePercent;
-//    }else if(pageIndicatorViewModel.slideDirection == SlideDirection.rightToLeft){
-//      translation -= bubbleWidth * pageIndicatorViewModel.slidePercent;
-//    }
+    final bubbleWidth = 55.0;
+    final baseTranslation =
+        (pageIndicatorViewModel.pages.length * bubbleWidth) / 2 -
+            bubbleWidth / 2;
+    var translation =
+        baseTranslation - (bubbleWidth * pageIndicatorViewModel.activeIndex);
 
-// TODO:(6.2) Transform the bubbles row left and right
+    if (pageIndicatorViewModel.slideDirection == SlideDirection.leftToRight) {
+      translation += bubbleWidth * pageIndicatorViewModel.slidePercent;
+    } else if (pageIndicatorViewModel.slideDirection ==
+        SlideDirection.rightToLeft) {
+      translation -= bubbleWidth * pageIndicatorViewModel.slidePercent;
+    }
+
     return Column(
       children: <Widget>[
         Expanded(
@@ -62,17 +65,13 @@ class PageIndicator extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 15.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: bubbles,
+          child: Transform(
+            transform: Matrix4.translationValues(translation, 0.0, 0.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: bubbles,
+            ),
           ),
-//          child: Transform(
-//            transform: Matrix4.translationValues(translation, 0.0, 0.0),
-//            child: Row(
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              children: bubbles,
-//            ),
-//          ),
         ),
       ],
     );
