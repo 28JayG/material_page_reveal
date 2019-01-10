@@ -18,6 +18,7 @@ class PageBubbleViewModel {
 enum SlideDirection {
   leftToRight,
   rightToLeft,
+  none,
 }
 
 class PageIndicatorViewModel {
